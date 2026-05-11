@@ -37,7 +37,7 @@ namespace project_game
         public bool isattack = false;
         public bool onGround = true;
     }
-
+    ///aaaaaa
     public partial class Form1 : Form
     {
         Bitmap off;
@@ -230,11 +230,7 @@ namespace project_game
                     ptrav.verticalVelocity = 0;
                     ptrav.IF2 = 0;
                 }
-            }
-
-
-
-           
+            }          
             drawDubb(this.CreateGraphics());
         }
 
