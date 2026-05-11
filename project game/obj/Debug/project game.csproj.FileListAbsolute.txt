@@ -1,0 +1,10 @@
+C:\Users\Mohammah Farag\source\repos\project game\project game\bin\Debug\project game.exe.config
+C:\Users\Mohammah Farag\source\repos\project game\project game\bin\Debug\project game.exe
+C:\Users\Mohammah Farag\source\repos\project game\project game\bin\Debug\project game.pdb
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project game.csproj.AssemblyReference.cache
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project_game.hero.resources
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project_game.Properties.Resources.resources
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project game.csproj.GenerateResource.cache
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project game.csproj.CoreCompileInputs.cache
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project game.exe
+C:\Users\Mohammah Farag\source\repos\project game\project game\obj\Debug\project game.pdb
