@@ -19,10 +19,13 @@ namespace project_game
         public List<Bitmap> imgs2;
         public List<Bitmap> imgs3;
         public List<Bitmap> imgs4;
+        public List<Bitmap> imgs5;
+
         public int IF;
         public int IF2;
         public int IF3;
         public int IF4;
+        public int IF5;
         public int direc;
         public int move;
         public int fall;
@@ -138,51 +141,61 @@ namespace project_game
             }
 
         }
-        
+
         private void T_Tick(object sender, EventArgs e)
         {
             hero ptrav = L[0];
-
             ptrav.ismoving = false;
-
 
             if (ptrav.isattack)
             {
                 ptrav.IF4++;
-
-                if (ptrav.IF4 >= ptrav.imgs4.Count)
+                if (ptrav.IF4 >= ptrav.imgs4.Count) 
                 {
                     ptrav.IF4 = 0;
                     ptrav.isattack = false;
                 }
             }
 
-                if (ptrav.issprinting == true)
-                {
-                  currentSpeed = 13;
-                }
-
-            if (ptrav.issprinting == false)
+            if (ptrav.issprinting == true)
+            {
+                currentSpeed = 13;
+            }
+            else
             {
                 currentSpeed = 7;
             }
 
-           
             if (ptrav.isRightPressed)
             {
                 ptrav.x += currentSpeed;
-                ptrav.IF = (ptrav.IF + 1) % 8;
                 ptrav.ismoving = true;
+
+                if (ptrav.issprinting == true)
+                {
+                    ptrav.IF5 = (ptrav.IF5 + 1) % ptrav.imgs5.Count; 
+                }
+                else
+                {
+                    ptrav.IF = (ptrav.IF + 1) % ptrav.imgs.Count; 
+                }
             }
 
             if (ptrav.isLeftPressed)
             {
                 ptrav.x -= currentSpeed;
-                ptrav.IF = (ptrav.IF + 1) % 8;
                 ptrav.ismoving = true;
+
+                if (ptrav.issprinting == true)
+                {
+                    ptrav.IF5 = (ptrav.IF5 + 1) % ptrav.imgs5.Count; 
+                }
+                else
+                {
+                    ptrav.IF = (ptrav.IF + 1) % ptrav.imgs.Count; 
+                }
             }
 
-          
             int groundY = ClientSize.Height - 220;
 
             if (ptrav.isJumping && ptrav.onGround)
@@ -192,32 +205,31 @@ namespace project_game
                 ptrav.ismoving = true;
             }
 
-
             if (ptrav.ismoving == false && ptrav.onGround == true)
             {
                 ptrav.isidle = true;
-                ptrav.IF3 = (ptrav.IF3 + 1) % 7;
-
+                ptrav.IF3 = (ptrav.IF3 + 1) % ptrav.imgs3.Count; 
             }
             else
             {
                 ptrav.isidle = false;
                 ptrav.IF3 = 0;
-
             }
-
-
 
             if (ptrav.onGround == false)
             {
-                if (ptrav.verticalVelocity < 0)
+               
+                int middleFrame = ptrav.imgs2.Count / 2;
+
+                if (ptrav.verticalVelocity < 0) 
                 {
-                    ptrav.IF2 = (ptrav.IF2 + 1) % 3;
+                    ptrav.IF2 = (ptrav.IF2 + 1) % middleFrame;
                 }
-                else if (ptrav.verticalVelocity > 0)
+                else if (ptrav.verticalVelocity > 0) 
                 {
-                    if (ptrav.IF2 < 3) ptrav.IF2 = 3;
-                    ptrav.IF2 = ((ptrav.IF2 - 3 + 1) % 2) + 3;
+                   
+                    if (ptrav.IF2 < middleFrame) ptrav.IF2 = middleFrame;
+                    ptrav.IF2 = ((ptrav.IF2 - middleFrame + 1) % (ptrav.imgs2.Count - middleFrame)) + middleFrame;
                 }
 
                 ptrav.y += ptrav.verticalVelocity;
@@ -230,11 +242,11 @@ namespace project_game
                     ptrav.verticalVelocity = 0;
                     ptrav.IF2 = 0;
                 }
-            }          
+            }
             drawDubb(this.CreateGraphics());
         }
 
-        
+
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -258,10 +270,12 @@ namespace project_game
             pnn.IF2 = 0;
             pnn.IF3 = 0;
             pnn.IF4 = 0;
+            pnn.IF5 = 0;
             pnn.imgs = new List<Bitmap>();
             pnn.imgs2 = new List<Bitmap>();
             pnn.imgs3 = new List<Bitmap>();
             pnn.imgs4 = new List<Bitmap>();
+            pnn.imgs5 = new List<Bitmap>();
             pnn.move = 1;
             pnn.direc = 1;
             for (int i = 1; i < 9; i++)
@@ -297,6 +311,16 @@ namespace project_game
             }
 
 
+            for (int i = 0; i < 8; i++)
+            {
+                Bitmap sora5 = new Bitmap("R" + i + ".png");
+                sora5.MakeTransparent(sora5.GetPixel(0, 0));
+                pnn.imgs5.Add(sora5);
+
+            }
+
+
+
             L.Add(pnn);
             drawDubb(this.CreateGraphics());
         }
@@ -316,20 +340,19 @@ namespace project_game
 
             for (int i = 0; i < L.Count; i++)
             {
-
-                
                 hero Ptrav = L[i];
 
-                if (Ptrav.onGround == false)
-                {
-                    g2.DrawImage(Ptrav.imgs2[Ptrav.IF2], Ptrav.x, Ptrav.y);
-                }
-               
-                else if (Ptrav.isattack == true || Ptrav.onGround == false )
+
+                if (Ptrav.isattack == true)
                 {
                     g2.DrawImage(Ptrav.imgs4[Ptrav.IF4], Ptrav.x, Ptrav.y);
                 }
                
+                else if (Ptrav.onGround == false)
+                {
+                    g2.DrawImage(Ptrav.imgs2[Ptrav.IF2], Ptrav.x, Ptrav.y);
+                }
+            
                 else if (Ptrav.isidle == true)
                 {
                     g2.DrawImage(Ptrav.imgs3[Ptrav.IF3], Ptrav.x, Ptrav.y);
@@ -337,13 +360,16 @@ namespace project_game
               
                 else
                 {
-                    g2.DrawImage(Ptrav.imgs[Ptrav.IF], Ptrav.x, Ptrav.y);
+                   
+                    if (Ptrav.issprinting && Ptrav.ismoving)
+                    {
+                        g2.DrawImage(Ptrav.imgs5[Ptrav.IF5], Ptrav.x, Ptrav.y);
+                    }
+                    else
+                    {
+                        g2.DrawImage(Ptrav.imgs[Ptrav.IF], Ptrav.x, Ptrav.y);
+                    }
                 }
-
-
-
-
-
             }
         }
 
