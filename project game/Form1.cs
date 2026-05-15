@@ -20,12 +20,14 @@ namespace project_game
         public List<Bitmap> imgs3;
         public List<Bitmap> imgs4;
         public List<Bitmap> imgs5;
+        public List<Bitmap> imgs6;
 
         public int IF;
         public int IF2;
         public int IF3;
         public int IF4;
         public int IF5;
+        public int IF6;
         public int direc;
         public int move;
         public int fall;
@@ -39,12 +41,33 @@ namespace project_game
         public bool ismoving = false;
         public bool isattack = false;
         public bool onGround = true;
+        public bool isClimbing = false;
+        public bool isOnLadder = false;
+
+        
     }
+
+
+    public class ladder
+     {
+         public int x, y, width, height;
+        public Bitmap img;
+
+        
+    }
+    
+
+
+
+
+
+
     ///aaaaaa
     public partial class Form1 : Form
     {
         Bitmap off;
-        List<hero> L = new List<hero>();
+        List<hero> L = new List<hero>();// hero
+        List<ladder> Ladders = new List<ladder>();
         Timer t = new Timer();
         int currentSpeed;
         int cttick = 0;
@@ -81,6 +104,11 @@ namespace project_game
            
         }
 
+        private void isclimping()
+        {
+          
+
+        }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             hero ptrav = L[0];
@@ -147,7 +175,7 @@ namespace project_game
             hero ptrav = L[0];
             ptrav.ismoving = false;
 
-            if (ptrav.isattack)
+            if (ptrav.isattack == true)
             {
                 ptrav.IF4++;
                 if (ptrav.IF4 >= ptrav.imgs4.Count) 
@@ -166,7 +194,7 @@ namespace project_game
                 currentSpeed = 7;
             }
 
-            if (ptrav.isRightPressed)
+            if (ptrav.isRightPressed == true)
             {
                 ptrav.x += currentSpeed;
                 ptrav.ismoving = true;
@@ -181,7 +209,7 @@ namespace project_game
                 }
             }
 
-            if (ptrav.isLeftPressed)
+            if (ptrav.isLeftPressed == true)
             {
                 ptrav.x -= currentSpeed;
                 ptrav.ismoving = true;
@@ -198,7 +226,7 @@ namespace project_game
 
             int groundY = ClientSize.Height - 220;
 
-            if (ptrav.isJumping && ptrav.onGround)
+            if (ptrav.isJumping == true && ptrav.onGround == true)
             {
                 ptrav.verticalVelocity = -20;
                 ptrav.onGround = false;
@@ -257,7 +285,18 @@ namespace project_game
         {
             off = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
             drawhero();
-          
+            ladder();
+        }
+
+
+        void ladder()
+        {
+            Ladder pnn = new Ladder();
+             pnn.img = new Bitmap("L.png");
+             pnn.x = ClientSize.Width/2;
+             pnn.y = 200;
+             Ladders.Add(pnn);
+             drawDubb(this.CreateGraphics());
         }
 
         void drawhero()
@@ -271,11 +310,11 @@ namespace project_game
             pnn.IF3 = 0;
             pnn.IF4 = 0;
             pnn.IF5 = 0;
-            pnn.imgs = new List<Bitmap>();
-            pnn.imgs2 = new List<Bitmap>();
-            pnn.imgs3 = new List<Bitmap>();
-            pnn.imgs4 = new List<Bitmap>();
-            pnn.imgs5 = new List<Bitmap>();
+            pnn.imgs = new List<Bitmap>(); //walk
+            pnn.imgs2 = new List<Bitmap>(); // jump
+            pnn.imgs3 = new List<Bitmap>(); //Idle
+            pnn.imgs4 = new List<Bitmap>(); //Attack
+            pnn.imgs5 = new List<Bitmap>(); // Sprint
             pnn.move = 1;
             pnn.direc = 1;
             for (int i = 1; i < 9; i++)
@@ -371,6 +410,16 @@ namespace project_game
                     }
                 }
             }
+
+            for( int i =0;i<Ladders.count;i++)
+            { 
+                ladder ptrav = Ladders[i];
+                g2.drawImage(ptrav.img,ptrav.x,ptrav.y);         
+            }
+
+
+
+
         }
 
     }
